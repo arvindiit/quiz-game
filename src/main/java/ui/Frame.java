@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Frame extends JFrame {
@@ -29,19 +31,23 @@ public class Frame extends JFrame {
 
     public void addPlayer(int playerNo, String name) {
 
-        ImageIcon ii = new ImageIcon("C:\\Users\\klm75203\\Desktop\\images\\"+playerNo+".gif");
+        ImageIcon ii = new ImageIcon("/home/arvind/code/quiz-game/images/"+playerNo+".png");
 
         JLabel label = new JLabel(name, ii, JLabel.CENTER);
-        label.setVerticalTextPosition(JLabel.CENTER);
+        label.setVerticalTextPosition(JLabel.TOP);
         label.setHorizontalTextPosition(JLabel.CENTER);
         //label.setBounds(10, 350, 100, 20);
         Dimension size = label.getPreferredSize();
         if(playerNo == 1){
-            label.setBounds(0, 0, size.width, size.height+670);
-            //label.setLocation(10, 350);
+            label.setBounds(0, 0, size.width+40, size.height+850);
         }else if(playerNo == 2){
-            label.setBounds(0, 0, size.width+90, size.height+620);
-            //label.setLocation(20, 450);
+            label.setBounds(0, 0, size.width+140, size.height+750);
+        }else if(playerNo == 3) {
+            label.setBounds(0, 0, size.width + 245, size.height + 550);
+        }else if(playerNo == 4){
+            label.setBounds(0, 0, size.width + 345, size.height + 350);
+        }else if(playerNo == 5){
+            label.setBounds(0, 0, size.width + 445, size.height + 150);
         }
         panel.add(label);
         map.put(playerNo, label);
@@ -52,9 +58,30 @@ public class Frame extends JFrame {
 
     public void move(int player){
         JLabel label = map.get(player);
-        label.setBounds(0, 0, label.getWidth()+120, label.getHeight()+100);
+        label.setBounds(0, 0, label.getWidth()+165, label.getHeight()+65);
         panel.revalidate();
         panel.repaint();
+    }
+
+    public void makeWinner(List<String> userIds){
+
+        int size = userIds.size();
+        int imageSize = 0;
+        for(int i = 0; i<userIds.size(); i++) {
+            int j = i+1;
+            ImageIcon ii = new ImageIcon("/home/arvind/code/quiz-game/images/winners/"+j+".gif");
+
+            JLabel label = new JLabel(userIds.get(i).toUpperCase(), ii, JLabel.CENTER);
+            label.setFont(new Font(label.getFont().getFontName(), Font.BOLD, label.getFont().getSize() + 50));
+            label.setVerticalTextPosition(JLabel.TOP);
+            label.setHorizontalTextPosition(JLabel.CENTER);
+            label.setBounds(0, 0, (imageSize+(label.getWidth() + 1800)/size), label.getHeight() + 350);
+
+            imageSize = imageSize + ((label.getWidth() + 1800)/size);
+            panel.add(label);
+            panel.revalidate();
+            panel.repaint();
+        }
     }
 
 

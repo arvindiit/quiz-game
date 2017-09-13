@@ -39,11 +39,19 @@ public class LoginController {
     public ResponseEntity<?> loginResultViaAjax(
             @Valid @RequestBody String userName, HttpServletResponse response, HttpServletRequest request) {
 
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-        response.addCookie(new Cookie("user", userName));
+        if(loginService.doesUserExist(userName)){
+            return ResponseEntity.ok(50);
+        }
+
         if(timerService.getData()>0) {
+            if(loginService.getPlayerNo() >=5){
+                return ResponseEntity.ok("Sorry. There are already enough people in the game !!!!!!!!!!");
+            }
+
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
+            response.addCookie(new Cookie("user", userName));
             quizService.login(userName);
             loginService.addPlayer(userName);
             return ResponseEntity.ok(timerService.getData());

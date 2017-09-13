@@ -24,10 +24,4 @@ public class TimerController {
 
     }
 
-    @GetMapping("/admin")
-    public ResponseEntity<?> welcome() {
-        timerService.start();
-        return ResponseEntity.ok("success");
-    }
-
 }

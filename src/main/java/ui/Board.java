@@ -22,7 +22,7 @@ public class Board extends JPanel {
 
     private void loadImage() {
 
-        ImageIcon ii = new ImageIcon("C:\\Users\\klm75203\\Desktop\\track.png");
+        ImageIcon ii = new ImageIcon("/home/arvind/code/quiz-game/images/track1.png");
         track = ii.getImage();
     }
 

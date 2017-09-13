@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ui.Frame;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +26,25 @@ public class LoginService {
     public void move(String name){
         int playerNo = map.get(name);
         frame.move(playerNo);
+    }
+
+    public void makeWinner(List<String> userIds){
+        frame.makeWinner(userIds);
+    }
+
+    public int getPlayerNo(){
+        return this.playerNo;
+    }
+
+    public void reset(){
+        frame.dispose();
+        frame = new Frame();
+        map = new HashMap<>();
+        playerNo = 0;
+    }
+
+    public boolean doesUserExist(String userId){
+        return map.get(userId) != null;
     }
 
 }

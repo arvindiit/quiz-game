@@ -1,8 +1,6 @@
 package com.arvind.game.quiz.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by klm75203 on 9/8/2017.
@@ -11,6 +9,7 @@ import javax.persistence.ManyToOne;
 public class Option {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     String value;
 

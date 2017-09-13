@@ -17,24 +17,17 @@ public class TimerService {
 
     AtomicInteger data = new AtomicInteger(31);
 
-    int quizTime = 110;
-
     public int getData(){
         return this.data.get();
     }
 
     public void start(){
-        this.data = new AtomicInteger(30);
+        this.data = new AtomicInteger(5);
         asyncService.decrementInteger(this.data);
 
+    }
 
-        try {
-            Thread.currentThread().sleep(quizTime*1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+    public void finish(){
         this.data = new AtomicInteger(31);
-
     }
 }
