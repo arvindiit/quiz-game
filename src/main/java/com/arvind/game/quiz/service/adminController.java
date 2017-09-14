@@ -54,7 +54,6 @@ public class adminController {
     }
     @GetMapping("/admin/reset")
     public ResponseEntity<?> reset() {
-        timerService.start();
         loginService.reset();
         quizService.reset();
         return ResponseEntity.ok("success");

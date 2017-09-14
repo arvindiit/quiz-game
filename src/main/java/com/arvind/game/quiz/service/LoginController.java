@@ -29,36 +29,46 @@ public class LoginController {
     QuizService quizService;
 
     @GetMapping("/")
-    public String welcome(Model model) {
+    public Object welcome() {
+        if(timerService.getData()<=0){
+            return ResponseEntity.ok(formResponse("You are late. Game is already in progress !!!!!!!!!!"));
+        }
+
+        if(timerService.getData()==100){
+            return ResponseEntity.ok(formResponse("Please request the admin to reset the game to start playing !!!!!"));
+        }
+
         return "/home";
-    }
+        }
 
 
 
     @PostMapping("/login")
     public ResponseEntity<?> loginResultViaAjax(
-            @Valid @RequestBody String userName, HttpServletResponse response, HttpServletRequest request) {
+            @Valid @RequestBody String userName, HttpServletResponse response) {
 
+        userName = userName.toUpperCase();
         if(loginService.doesUserExist(userName)){
             return ResponseEntity.ok(50);
         }
 
-        if(timerService.getData()>0) {
-            if(loginService.getPlayerNo() >=5){
-                return ResponseEntity.ok("Sorry. There are already enough people in the game !!!!!!!!!!");
-            }
-
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setDateHeader("Expires", 0);
-            response.addCookie(new Cookie("user", userName));
-            quizService.login(userName);
-            loginService.addPlayer(userName);
-            return ResponseEntity.ok(timerService.getData());
-        }else{
-            return ResponseEntity.ok("You are late. Game is already in progress !!!!!!!!!!");
+        if(loginService.getPlayerNo() >=5){
+            return ResponseEntity.ok(formResponse("Sorry. There are already enough people in the game !!!!!!!!!!"));
         }
 
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.addCookie(new Cookie("user", userName));
+        quizService.login(userName);
+        loginService.addPlayer(userName);
+        return ResponseEntity.ok(timerService.getData());
+    }
+
+    private String formResponse(String text){
+        String str = "<div class=\"container\" style=\"height:400px\">" +
+                "<label style=\"font-size:50px\">"+text+"</label></div>";
+        return str;
     }
 
 }

@@ -7,8 +7,8 @@ import javax.swing.*;
 
 public class Board extends JPanel {
 
-    private final int B_WIDTH = 1300;
-    private final int B_HEIGHT = 1000;
+    private final int B_WIDTH = 2400;
+    private final int B_HEIGHT = 1400;
     private final int INITIAL_X = 0;
     private final int INITIAL_Y = 0;
 

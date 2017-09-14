@@ -7,15 +7,15 @@ $(document).ready(function () {
 
         search = $("#username").val();
         if(search && search.trim().length != 0) {
-            if(search.trim().length > 6){
-                var htmlWelcome = "<h4>Please enter a name less than 6 letter !!</h4>";
+            if(search.trim().length > 6 || search.trim().length < 3){
+                var htmlWelcome = "<h4 class=\"col-sm-offset-1\"><pre style=\"font-size:20px\">Please enter a name more than 2 and less than 6 letter!!</pre></h4>";
                 $('#login').html(htmlWelcome);
             }else {
                 fire_ajax_submit(search.trim());
                 document.getElementById('form-id').style.display = 'none';
             }
         }else{
-            var htmlWelcome = "<h4>You don't have a name ????</h4>";
+            var htmlWelcome = "<h4 class=\"col-sm-offset-1\"><pre style=\"font-size:20px\">You don't have a name ????</pre></h4>";
             $('#login').html(htmlWelcome);
         }
 
@@ -25,8 +25,6 @@ $(document).ready(function () {
 
 function fire_ajax_submit(search) {
 
-    var htmlWelcome = "<h4>Welcome "+search+"</h4>";
-    $('#login').html(htmlWelcome);
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -37,11 +35,14 @@ function fire_ajax_submit(search) {
         timeout: 600000,
         success: function (data) {
             if(data==50) {
-                var html = "<p><h4><pre>There is already a user with same name. Select a different one !!!</pre></h4></p>";
-                $('#timer-id').html(html);
+
+                var html = "<h4 class=\"col-sm-offset-1\"><pre style=\"font-size:20px\">There is already a user with same name. Select a different one !!!</pre></h4>";
+                $('#login').html(html);
                 document.getElementById('form-id').style.display = 'block';
             }else if(data>30) {
-                var html = "<p><h4><pre>Please wait for game to start</pre></h4></p>";
+                var htmlWelcome = "<h1 class=\"col-sm-offset-3\" style=\"font-size:40px\">Welcome "+search+"</h1>";
+                $('#login').html(htmlWelcome);
+                var html = "<h4 class=\"col-sm-offset-2\"><pre style=\"font-size:20px\">Please wait for game to start</pre></h4>";
                 $('#timer-id').html(html);
                timer.repeat();
             }else{
@@ -78,7 +79,8 @@ var timer = (function() {
         run: function() {
             if (timeoutRef) clearInterval(timeoutRef);
             if (timerElement) {
-                timerElement.innerHTML = count;
+                var html = "<span class=\"col-sm-offset-5\">"+count+"</span>"
+                timerElement.innerHTML = html;
             }
             if (count > 0) {
                 timeoutRef = setTimeout(timer.run, 1000);

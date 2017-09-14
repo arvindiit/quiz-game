@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +21,21 @@ public class Frame extends JFrame {
     Map<Integer, JLabel> map = new HashMap<>();
 
     public Frame() {
+        InetAddress localhost = null;
+        try {
+            localhost = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        try {
+            InetAddress.getByName(new URL("localhost").getHost());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        // this code assumes IPv4 is used
+        byte[] ip = localhost.getAddress();
         panel.setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(2500, 1500);

@@ -28,6 +28,11 @@ public class TimerService {
     }
 
     public void finish(){
+        this.data = new AtomicInteger(100);
+    }
+
+    public void reset(){
         this.data = new AtomicInteger(31);
     }
+
 }

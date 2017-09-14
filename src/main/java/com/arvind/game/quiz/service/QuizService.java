@@ -70,7 +70,7 @@ public class QuizService {
             loginService.move(userId);
             int points = winnersMap.get(userId)+1;
             winnersMap.put(userId, points);
-            if(points >= 1){
+            if(points >= 10){
                 userIterationmap = new HashMap<>();
                 winners.add(userId);
             }
@@ -99,6 +99,7 @@ public class QuizService {
         query.setMaxResults(15);
         List<Question> questionList = query.getResultList();
         questAnsMap = questionList.stream().collect(Collectors.toMap(Question::getId, Question::getAnswer));
+        timerService.reset();
 
     }
 
