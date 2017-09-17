@@ -22,7 +22,7 @@ public class TimerService {
     }
 
     public void start(){
-        this.data = new AtomicInteger(5);
+        this.data = new AtomicInteger(20);
         asyncService.decrementInteger(this.data);
 
     }

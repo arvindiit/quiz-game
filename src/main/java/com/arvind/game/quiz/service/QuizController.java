@@ -59,14 +59,18 @@ public class QuizController {
 
 
 
-    @PostMapping("/quiz-started")
-    public RedirectView postAnswer(@ModelAttribute Question question, HttpServletRequest request) {
-        String userId = request.getCookies()[0].getValue();
-        quizService.checkAnswer(question, userId);
 
-        return new RedirectView("/quiz-page", true);
+    @PostMapping("/quiz-started")
+    public String postAnswer(@ModelAttribute Question question, Model model, HttpServletRequest request) {
+        String userId = request.getCookies()[0].getValue();
+        boolean answer = quizService.checkAnswer(question, userId);
+        model.addAttribute("answer", answer);
+        return "/answer";
 
     }
 
-
+    @GetMapping("/answer")
+    public String answer(Model model) {
+        return "/answer";
+    }
 }

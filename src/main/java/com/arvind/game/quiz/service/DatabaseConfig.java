@@ -29,7 +29,7 @@ public class DatabaseConfig {
                 .create()
                 .username("postgres")
                 .password("postgres")
-                .url("jdbc:postgresql://localhost:5432/test")
+                .url("jdbc:postgresql://localhost:5432/quiz")
                 .driverClassName("org.postgresql.Driver")
                 .build();
     }

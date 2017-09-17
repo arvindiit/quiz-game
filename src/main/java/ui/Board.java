@@ -29,7 +29,8 @@ public class Board extends JPanel {
     private void initBoard() {
 
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
+        //setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
+        setSize(B_WIDTH, B_HEIGHT);
         setDoubleBuffered(true);
 
 

@@ -1,5 +1,8 @@
 package ui;
 
+import com.arvind.game.quiz.domain.Option;
+import com.arvind.game.quiz.domain.Question;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
@@ -19,31 +22,35 @@ public class Frame extends JFrame {
 
 
     Map<Integer, JLabel> map = new HashMap<>();
+    Map<Integer, JLabel> pointMap = new HashMap<>();
+    JLabel questionLable = null;
+    JLabel optionLabel = null;
 
     public Frame() {
-        InetAddress localhost = null;
-        try {
-            localhost = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        try {
-            InetAddress.getByName(new URL("localhost").getHost());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        // this code assumes IPv4 is used
-        byte[] ip = localhost.getAddress();
         panel.setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(2500, 1500);
         setLocationRelativeTo(null);
         setVisible(true);
-        setTitle("Frame");
+        setTitle("Skiing Game");
         setLayout(new GridBagLayout());
         add(panel);
+        questionLable = new JLabel("Connect to wifi. In browser http://172.28.204.41:8001", JLabel.CENTER);
+        questionLable.setVerticalTextPosition(JLabel.TOP);
+        questionLable.setHorizontalTextPosition(JLabel.CENTER);
+        Dimension size = questionLable.getPreferredSize();
+        questionLable.setBounds(700, 0, size.width+400, 50);
+        questionLable.setFont(new Font("arvind",Font.BOLD, 18));
+        panel.add(questionLable);
+
+        optionLabel = new JLabel("", JLabel.CENTER);
+        optionLabel.setVerticalTextPosition(JLabel.TOP);
+        optionLabel.setHorizontalTextPosition(JLabel.CENTER);
+        Dimension optionSize = optionLabel.getPreferredSize();
+        optionLabel.setBounds(1000, 50, optionSize.width+600, 100);
+        optionLabel.setFont(new Font("arvind",Font.BOLD, 15));
+        panel.add(optionLabel);
+
         initListeners();
 
     }
@@ -51,35 +58,109 @@ public class Frame extends JFrame {
     public void addPlayer(int playerNo, String name) {
 
         ImageIcon ii = new ImageIcon("/home/arvind/code/quiz-game/images/"+playerNo+".png");
-
-        JLabel label = new JLabel(name, ii, JLabel.CENTER);
-        label.setVerticalTextPosition(JLabel.TOP);
-        label.setHorizontalTextPosition(JLabel.CENTER);
-        //label.setBounds(10, 350, 100, 20);
-        Dimension size = label.getPreferredSize();
+        JLabel PlayerLabel = getLabel(name, ii, playerNo, 5);
+        Dimension size = PlayerLabel.getPreferredSize();
+        JLabel nameLabel = getLabel(name+":", null, playerNo, 6);
+        JLabel pointLable = new JLabel("0");
+        pointLable.setFont(new Font("arvind",Font.BOLD, 40));
         if(playerNo == 1){
-            label.setBounds(0, 0, size.width+40, size.height+850);
+            PlayerLabel.setBounds(0, 250, size.width, size.height);
+            nameLabel.setBounds(50, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
+            pointLable.setBounds(nameLabel.getPreferredSize().width+70, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 2){
-            label.setBounds(0, 0, size.width+140, size.height+750);
+            PlayerLabel.setBounds(70, 200, size.width, size.height);
+            nameLabel.setBounds(50, 850, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
+            pointLable.setBounds(nameLabel.getPreferredSize().width+70, 850, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 3) {
-            label.setBounds(0, 0, size.width + 245, size.height + 550);
+            PlayerLabel.setBounds(100, 150, size.width, size.height);
+            nameLabel.setBounds(450, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
+            pointLable.setBounds(nameLabel.getPreferredSize().width+470, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 4){
-            label.setBounds(0, 0, size.width + 345, size.height + 350);
+            PlayerLabel.setBounds(150, 100, size.width, size.height);
+            nameLabel.setBounds(450, 850, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
+            pointLable.setBounds(nameLabel.getPreferredSize().width+470, 850, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 5){
-            label.setBounds(0, 0, size.width + 445, size.height + 150);
+            PlayerLabel.setBounds(200, 50, size.width, size.height );
+            nameLabel.setBounds(650, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
+            pointLable.setBounds(nameLabel.getPreferredSize().width+670, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
+
         }
-        panel.add(label);
-        map.put(playerNo, label);
+        map.put(playerNo, PlayerLabel);
+        pointMap.put(playerNo, pointLable);
+        panel.add(PlayerLabel);
+        panel.add(nameLabel);
+        panel.add(pointLable);
         panel.revalidate();
         panel.repaint();
 
     }
+    private JLabel getLabel(String name, ImageIcon ii, int playerNo, int size) {
+        JLabel label;
+        if (playerNo == 1){
+            label = new JLabel("<html><font color='green' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
+        } else if (playerNo == 2){
+            label = new JLabel("<html><font color='blue' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
+        }else if (playerNo == 3){
+            label = new JLabel("<html><font color='red' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
+        }else if(playerNo == 4){
+            label = new JLabel("<html><font color='cyan' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
+        }else{
+            label = new JLabel("<html><font color='darkorange' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
+
+        }
+        label.setVerticalTextPosition(JLabel.TOP);
+        label.setHorizontalTextPosition(JLabel.CENTER);
+        return label;
+
+    }
+
+    public void pushQuestion(Question question, int qNo){
+
+        List<Option> list = new ArrayList<>(question.getOptions());
+        String htmlOptions =  "<html>"+"1)"+list.get(0).getValue()+"    " +
+                "2)"+list.get(1).getValue()+"<br>" +
+                "3)"+list.get(2).getValue()+"    " +
+                "4)"+list.get(3).getValue()+"</html>";
+
+        questionLable.setText("Q"+qNo+": "+question.getTitle());
+        optionLabel.setText(htmlOptions);
+        questionLable.repaint();
+        optionLabel.repaint();
+    }
+
+    public void pushAnswer(String answer){
+
+        optionLabel.setText("Answer is: "+answer);
+        optionLabel.revalidate();
+        optionLabel.repaint();
+    }
+
 
     public void move(int player){
+        JLabel pointLabel = pointMap.get(player);
+        int i = Integer.valueOf(pointLabel.getText());
+        pointLabel.setText(i+1+"");
+        pointLabel.revalidate();
+        pointLabel.repaint();
+
         JLabel label = map.get(player);
-        label.setBounds(0, 0, label.getWidth()+165, label.getHeight()+65);
-        panel.revalidate();
-        panel.repaint();
+
+        int intialX = label.getBounds().x;
+        int intialY = label.getBounds().y;
+        int x = 0;
+        int y = 0;
+        while(x != 132) {
+            x = x+4;
+            y = y+1;
+            label.setBounds(intialX + x, intialY + y, label.getPreferredSize().width, label.getPreferredSize().height);
+            //label.revalidate();
+            label.repaint();
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void makeWinner(List<String> userIds){

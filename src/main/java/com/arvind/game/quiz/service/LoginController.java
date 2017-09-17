@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +28,7 @@ public class LoginController {
     QuizService quizService;
 
     @GetMapping("/")
-    public Object welcome() {
+    public Object welcome(Model model) {
         if(timerService.getData()<=0){
             return ResponseEntity.ok(formResponse("You are late. Game is already in progress !!!!!!!!!!"));
         }
@@ -38,31 +37,41 @@ public class LoginController {
             return ResponseEntity.ok(formResponse("Please request the admin to reset the game to start playing !!!!!"));
         }
 
+        model.addAttribute("searchResult", new SearchResult());
         return "/home";
         }
 
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginResultViaAjax(
-            @Valid @RequestBody String userName, HttpServletResponse response) {
+    public String loginResultViaAjax(Model model,
+                                           @ModelAttribute(value="searchResult") SearchResult searchResult, HttpServletRequest request, HttpServletResponse response) {
 
-        userName = userName.toUpperCase();
+        String userName = searchResult.getUserName().toUpperCase();
+        int data;
         if(loginService.doesUserExist(userName)){
-            return ResponseEntity.ok(50);
-        }
+            data = 50;
+        } else if(loginService.getPlayerNo() >=5){
+            data = 51;
+        }else {
 
-        if(loginService.getPlayerNo() >=5){
-            return ResponseEntity.ok(formResponse("Sorry. There are already enough people in the game !!!!!!!!!!"));
-        }
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
+            response.addCookie(new Cookie("user", userName));
+            quizService.login(userName);
+            loginService.addPlayer(userName);
 
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-        response.addCookie(new Cookie("user", userName));
-        quizService.login(userName);
-        loginService.addPlayer(userName);
-        return ResponseEntity.ok(timerService.getData());
+            data = timerService.getData();
+            model.addAttribute("user", userName);
+        }
+        model.addAttribute("data", data);
+        return "/loggedIn";
+    }
+
+    @GetMapping("/loggedIn")
+    public String loggedIn(Model model) {
+        return "/loggedIn";
     }
 
     private String formResponse(String text){

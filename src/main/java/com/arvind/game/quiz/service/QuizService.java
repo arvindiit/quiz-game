@@ -33,17 +33,32 @@ public class QuizService {
 
     int finishedPlayer = 0;
     int loggedInPlayers = 0;
+    int allAnswered = 0;
     List<String> winners = new ArrayList<>();
 
     Map<String, Iterator<Question>> userIterationmap = new HashMap<>();
     Map<Integer, String> questAnsMap = new HashMap<>();
     Map<String, Integer> winnersMap = new HashMap<>();
     int questionStart = -15;
+    boolean pushNextQuestion = true;
+    String answer = "";
 
+    int questionNo = 0;
     public synchronized Question getNextQuestion(String userId){
+
+        while(allAnswered != 0){
+            System.out.println("waiting for everyone to finish");
+        }
+
         Iterator<Question> it = userIterationmap.get(userId);
         if(it != null && it.hasNext()){
-            return userIterationmap.get(userId).next();
+            Question question =  userIterationmap.get(userId).next();
+            if(pushNextQuestion){
+                pushNextQuestion = false;
+                loginService.pushQuestion(question, ++questionNo);
+                answer = question.getAnswer();
+            }
+            return question;
         }else{
             finishedPlayer++;
             ifAllFinishedDeclareWinner();
@@ -62,7 +77,9 @@ public class QuizService {
         loggedInPlayers++;
     }
 
-    public synchronized void checkAnswer(Question answered, String userId){
+    public synchronized boolean checkAnswer(Question answered, String userId){
+        allAnswered++;
+        boolean isRight = false;
         String rightAnswer = questAnsMap.get(answered.getId());
         if(answered.getAnswer() == null || !answered.getAnswer().equalsIgnoreCase(rightAnswer)) {
             System.out.println("WRONG answer!!!:No point for user: " + userId);
@@ -74,7 +91,16 @@ public class QuizService {
                 userIterationmap = new HashMap<>();
                 winners.add(userId);
             }
+            isRight = true;
         }
+
+        if(allAnswered == loggedInPlayers){
+            allAnswered = 0;
+            pushNextQuestion = true;
+            loginService.pushAnswer(answer);
+        }
+
+        return isRight;
     }
 
     private void ifAllFinishedDeclareWinner(){

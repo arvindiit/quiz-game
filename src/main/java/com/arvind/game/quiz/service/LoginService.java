@@ -1,5 +1,6 @@
 package com.arvind.game.quiz.service;
 
+import com.arvind.game.quiz.domain.Question;
 import org.springframework.stereotype.Component;
 import ui.Frame;
 
@@ -41,6 +42,14 @@ public class LoginService {
         frame = new Frame();
         map = new HashMap<>();
         playerNo = 0;
+    }
+
+    public void pushQuestion(Question question, int qNo){
+        frame.pushQuestion(question, qNo);
+    }
+
+    public void pushAnswer(String answer){
+        frame.pushAnswer(answer);
     }
 
     public boolean doesUserExist(String userId){
