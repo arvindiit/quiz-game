@@ -1,9 +1,9 @@
 
-window.onload = jQuery(document).ready(function() {
-    timer.start(20)
-});
+window.onload = startTimer;
 
-
+function startTimer(){
+    timer.start(20);
+}
 var timer = (function() {
     var timerElement;
     var timeoutRef;

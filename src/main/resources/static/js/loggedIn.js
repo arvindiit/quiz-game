@@ -47,7 +47,7 @@ var timer = (function() {
         start : function(givenTime) {
             count = givenTime;
             timerElement = document.getElementById('timer-id');
-            var html = "<span class=\"col-sm-offset-0\">Total 20 questions. First 10 correct answers would be winner</span>"
+            var html = "<span class=\"col-sm-offset-0\">Total 15 questions. First 10 correct answers would be winner</span>"
             document.getElementById('message-id').innerHTML = html;
             timer.run();
         },

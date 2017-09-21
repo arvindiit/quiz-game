@@ -57,30 +57,31 @@ public class Frame extends JFrame {
 
     public void addPlayer(int playerNo, String name) {
 
-        ImageIcon ii = new ImageIcon("/home/arvind/code/quiz-game/images/"+playerNo+".png");
+        ImageIcon ii = new ImageIcon("/home/arvind/code/quiz-game/images/"+2+".png");
         JLabel PlayerLabel = getLabel(name, ii, playerNo, 5);
         Dimension size = PlayerLabel.getPreferredSize();
         JLabel nameLabel = getLabel(name+":", null, playerNo, 6);
         JLabel pointLable = new JLabel("0");
         pointLable.setFont(new Font("arvind",Font.BOLD, 40));
         if(playerNo == 1){
-            PlayerLabel.setBounds(0, 250, size.width, size.height);
+            PlayerLabel.setBounds(0, 230, size.width, size.height);
             nameLabel.setBounds(50, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+70, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 2){
-            PlayerLabel.setBounds(70, 200, size.width, size.height);
+            PlayerLabel.setBounds(250, 0, size.width, size.height );
+            //PlayerLabel.setBounds(62, 172, size.width, size.height);
             nameLabel.setBounds(50, 850, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+70, 850, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 3) {
-            PlayerLabel.setBounds(100, 150, size.width, size.height);
+            PlayerLabel.setBounds(130, 100, size.width, size.height);
             nameLabel.setBounds(450, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+470, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 4){
-            PlayerLabel.setBounds(150, 100, size.width, size.height);
+            PlayerLabel.setBounds(190, 40, size.width, size.height);
             nameLabel.setBounds(450, 850, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+470, 850, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 5){
-            PlayerLabel.setBounds(200, 50, size.width, size.height );
+            PlayerLabel.setBounds(180, 0, size.width, size.height );
             nameLabel.setBounds(650, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+670, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
 
@@ -97,7 +98,8 @@ public class Frame extends JFrame {
     private JLabel getLabel(String name, ImageIcon ii, int playerNo, int size) {
         JLabel label;
         if (playerNo == 1){
-            label = new JLabel("<html><font color='green' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
+            //label = new JLabel("<html><font color='green' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
+            label = new JLabel("<html><font color='darkorange' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
         } else if (playerNo == 2){
             label = new JLabel("<html><font color='blue' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
         }else if (playerNo == 3){
@@ -122,8 +124,8 @@ public class Frame extends JFrame {
                 "3)"+list.get(2).getValue()+"    " +
                 "4)"+list.get(3).getValue()+"</html>";
 
-        questionLable.setText("Q"+qNo+": "+question.getTitle());
         optionLabel.setText(htmlOptions);
+        questionLable.setText("Q"+qNo+": "+question.getTitle());
         questionLable.repaint();
         optionLabel.repaint();
     }
@@ -149,7 +151,7 @@ public class Frame extends JFrame {
         int intialY = label.getBounds().y;
         int x = 0;
         int y = 0;
-        while(x != 132) {
+        while(x != 124) {
             x = x+4;
             y = y+1;
             label.setBounds(intialX + x, intialY + y, label.getPreferredSize().width, label.getPreferredSize().height);
@@ -164,6 +166,11 @@ public class Frame extends JFrame {
     }
 
     public void makeWinner(List<String> userIds){
+
+        optionLabel.setText("");
+        questionLable.setText("Game Over");
+        questionLable.repaint();
+        optionLabel.repaint();
 
         int size = userIds.size();
         int imageSize = 0;

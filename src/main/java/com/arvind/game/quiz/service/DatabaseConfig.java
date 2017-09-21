@@ -51,7 +51,7 @@ public class DatabaseConfig {
         Properties hibernateProperties = new Properties();
 
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
+        hibernateProperties.setProperty("hibernate.show_sql", "false");
         hibernateProperties.setProperty("hibernate.use_sql_comments", "true");
         hibernateProperties.setProperty("hibernate.format_sql", "true");
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "validate");
