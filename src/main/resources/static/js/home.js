@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     $("#join-form").submit(function (event) {
         event.preventDefault();
 

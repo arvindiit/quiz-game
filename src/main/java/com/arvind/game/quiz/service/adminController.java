@@ -67,8 +67,8 @@ public class adminController {
         return ResponseEntity.ok("success");
     }
 
-    @GetMapping("/admin/nextQuiz")
-    public String nextQuiz() {
+    @GetMapping("/nextQuiz")
+    public String nextQuiz(Model model) {
         return "/nextQuiz";
     }
 

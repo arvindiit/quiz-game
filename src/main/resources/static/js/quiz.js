@@ -2,7 +2,7 @@
 window.onload = startTimer;
 
 function startTimer(){
-    timer.start(20);
+    timer.start(5);
 }
 var timer = (function() {
     var timerElement;

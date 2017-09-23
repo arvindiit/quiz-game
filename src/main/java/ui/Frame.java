@@ -39,7 +39,7 @@ public class Frame extends JFrame {
         questionLable.setVerticalTextPosition(JLabel.TOP);
         questionLable.setHorizontalTextPosition(JLabel.CENTER);
         Dimension size = questionLable.getPreferredSize();
-        questionLable.setBounds(700, 0, size.width+400, 50);
+        questionLable.setBounds(500, 0, size.width+800, 50);
         questionLable.setFont(new Font("arvind",Font.BOLD, 18));
         panel.add(questionLable);
 
@@ -68,8 +68,7 @@ public class Frame extends JFrame {
             nameLabel.setBounds(50, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+70, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 2){
-            PlayerLabel.setBounds(250, 0, size.width, size.height );
-            //PlayerLabel.setBounds(62, 172, size.width, size.height);
+            PlayerLabel.setBounds(210, 0, size.width, size.height );
             nameLabel.setBounds(50, 850, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+70, 850, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 3) {
@@ -77,11 +76,11 @@ public class Frame extends JFrame {
             nameLabel.setBounds(450, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+470, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 4){
-            PlayerLabel.setBounds(190, 40, size.width, size.height);
+            PlayerLabel.setBounds(62, 172, size.width, size.height);
             nameLabel.setBounds(450, 850, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+470, 850, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
         }else if(playerNo == 5){
-            PlayerLabel.setBounds(180, 0, size.width, size.height );
+            PlayerLabel.setBounds(190, 40, size.width, size.height);
             nameLabel.setBounds(650, 750, nameLabel.getPreferredSize().width, nameLabel.getPreferredSize().height);
             pointLable.setBounds(nameLabel.getPreferredSize().width+670, 750, pointLable.getPreferredSize().width, nameLabel.getPreferredSize().height);
 
@@ -98,8 +97,7 @@ public class Frame extends JFrame {
     private JLabel getLabel(String name, ImageIcon ii, int playerNo, int size) {
         JLabel label;
         if (playerNo == 1){
-            //label = new JLabel("<html><font color='green' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
-            label = new JLabel("<html><font color='darkorange' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
+            label = new JLabel("<html><font color='green' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
         } else if (playerNo == 2){
             label = new JLabel("<html><font color='blue' size='"+size+"'>" + name + "</font></html>", ii, JLabel.CENTER);
         }else if (playerNo == 3){
@@ -119,13 +117,13 @@ public class Frame extends JFrame {
     public void pushQuestion(Question question, int qNo){
 
         List<Option> list = new ArrayList<>(question.getOptions());
-        String htmlOptions =  "<html>"+"1)"+list.get(0).getValue()+"    " +
-                "2)"+list.get(1).getValue()+"<br>" +
-                "3)"+list.get(2).getValue()+"    " +
-                "4)"+list.get(3).getValue()+"</html>";
+        String htmlOptions =  "<html>"+list.get(0).getValue()+"<br>" +
+                list.get(1).getValue()+"<br>" +
+                list.get(2).getValue()+"<br>" +
+                list.get(3).getValue()+"</html>";
 
         optionLabel.setText(htmlOptions);
-        questionLable.setText("Q"+qNo+": "+question.getTitle());
+        questionLable.setText("<html>Q"+qNo+": "+question.getTitle()+"</html>");
         questionLable.repaint();
         optionLabel.repaint();
     }

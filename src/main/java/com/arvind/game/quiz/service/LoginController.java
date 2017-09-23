@@ -51,7 +51,7 @@ public class LoginController {
         int data;
         if(loginService.doesUserExist(userName)){
             data = 50;
-        } else if(loginService.getPlayerNo() >=5){
+        } else if(loginService.getPlayerNo() >=4){
             data = 51;
         }else {
 
